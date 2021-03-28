@@ -53,7 +53,6 @@ class Directory extends React.Component {
           // use ...otherSectionProps to destructure the props
           //it is the same of doing line bellow \/
           // this.state.sections.map(({ title, imageUrl, id, size }) => (
-  
           <MenuItem key={id} {...otherSectionProps} />
         ))}
       </div>
