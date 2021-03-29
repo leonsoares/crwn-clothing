@@ -4,14 +4,8 @@ import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/ShopPage.component'
 import { Switch, Route } from 'react-router-dom'
 import Header from './components/header/header.component'
-import { auth } from './firebase/firebase.utils'
+import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 import SignInAndSignUpPage from './pages/sign-in-sign-up/sign-in-sign-up.component.jsx'
-
-// const HatsPage = () => (
-//   <div>
-//     <h1>Hats Page rrrrr</h1>
-//   </div>
-// )
 
 const ShirtsPage = () => (
   <div>
@@ -28,9 +22,20 @@ class App extends React.Component{
   unsubscribeFromAuth = null;
 
 componentDidMount(){
-  this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-    this.setState({currentUser: user})
-    console.log(user)
+  this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    if(userAuth){
+      const userRef = await createUserProfileDocument(userAuth);
+      userRef.onSnapshot(onSnapshot => {
+        this.setState({
+          currentUser: {
+            id: onSnapshot.id,
+            ...onSnapshot.data()
+          }
+        })
+      })
+    } else{
+      this.setState({currentUser: userAuth})
+    }
   })
 }
 componentWillUnmount(){
