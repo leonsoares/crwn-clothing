@@ -3,7 +3,7 @@ import React from 'react'
 import FormInput from '../form-input/form-input.component'
 import './sign-in.styles.scss'
 import CustomButton from '../custom-button/custom-button.component'
-
+import {signInWithGoogle} from '../../firebase/firebase.utils'
 // class compoenent because we need to store what the user is typing in 
 
 class SignIn extends React.Component{
@@ -51,6 +51,11 @@ handleChange = event => {
                         required
                     />
                     <CustomButton type='submit'>Sign in</CustomButton>
+                    <CustomButton onClick={signInWithGoogle}>
+                        {' '}
+                        Sign in with google {' '}
+                        </CustomButton>
+
 
                 </form>
             </div>
