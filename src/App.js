@@ -5,6 +5,7 @@ import ShopPage from './pages/shop/ShopPage.component'
 import { Switch, Route } from 'react-router-dom'
 import Header from './components/header/header.component'
 
+import SignInAndSignUpPage from './pages/sign-in-sign-up/sign-in-sign-up.component.jsx'
 
 // const HatsPage = () => (
 //   <div>
@@ -26,6 +27,7 @@ function App() {
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
           <Route path='/shirts' component={ShirtsPage} />
+          <Route path='/signin' component={SignInAndSignUpPage}/>
         </Switch>
     </div>
   );
