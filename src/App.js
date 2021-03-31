@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/ShopPage.component'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect} from 'react-router-dom'
 import Header from './components/header/header.component'
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 import SignInAndSignUpPage from './pages/sign-in-sign-up/sign-in-sign-up.component.jsx'
@@ -38,6 +38,8 @@ class App extends React.Component{
       
     });
   }
+
+
   
 componentWillUnmount(){
   this.unsubscribeFromAuth()
@@ -51,15 +53,20 @@ componentWillUnmount(){
             <Route exact path='/' component={HomePage} />
             <Route path='/shop' component={ShopPage} />
             <Route path='/shirts' component={ShirtsPage} />
-            <Route path='/signin' component={SignInAndSignUpPage}/>
+            <Route exact path='/signin' render={() =>  this.props.currentUser ? (<Redirect to='/' />) : (<SignInAndSignUpPage/>)}/>
           </Switch>
       </div>
     );
   }
 }
 
+const mapStateToProps = ({user}) => ({
+  currentUser: user.currentUser
+  
+})
+
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
 })
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
