@@ -4,18 +4,18 @@ const INITIAL_STATE = {
     currentUser: null
   };
   
-  const userReducer = (state = INITIAL_STATE, action) => {
-       // we can use if else statements here as well
+const userReducer = (state = INITIAL_STATE, action) => {
+    // we can use if else statements here as well
     switch (action.type) {
-      case UserActionTypes.SET_CURRENT_USER:
+        case UserActionTypes.SET_CURRENT_USER:
         return {
-          ...state,
-          currentUser: action.payload
+            ...state,
+            currentUser: action.payload
         };
-      default:
+        default:
         return state;
     }
-  };
+};
   
   export default userReducer;
 
