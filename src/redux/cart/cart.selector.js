@@ -7,6 +7,7 @@ import { createSelector } from 'reselect'
     //gets the intire state and return just a cart state saving it to this const
 const selectCart = state => state.cart;
 
+
 // creating the memoized selector
 export const selectCartItems = createSelector(
     [selectCart],
@@ -18,4 +19,16 @@ export const selectCartItemsCount = createSelector(
     cartItems =>
         cartItems.reduce((accumulator, cartItem) => 
         accumulator + cartItem.quantity, 0)
+)
+
+export const selectCartHidden = createSelector(
+    [selectCart],
+    (cart) => cart.hidden
+)
+
+export const selectCartTotal = createSelector(
+    [selectCartItems],
+    cartItems =>
+        cartItems.reduce((accumulator, cartItem) => 
+        accumulator + cartItem.quantity * cartItem.price, 0)
 )
