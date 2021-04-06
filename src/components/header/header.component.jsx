@@ -14,32 +14,68 @@ import './header.styles.scss';
 import CartIcon  from '../cart-icon/cart-icon.component'
 import CartDropdown from '../cart-dropdown/cart-dropdown.component'
 
+
+import { HeaderContainer, LogoContainer, OptionsContainer, OptionDiv, OptionLink} from './header.styles'
+
 const Header = ({currentUser, hidden}) => (
-  <div className='header'>
-    <Link className='logo-container' to='/'>
+  <HeaderContainer>
+    <LogoContainer to='/'>
       <Logo className='logo' />
-    </Link>
-    <div className='options'>
-      <Link className='option' to='/shop'>
+    </LogoContainer>
+    <OptionsContainer>
+      <OptionLink to='/shop'>
         SHOP
-      </Link>
-      <Link className='option' to='/shop'>
+      </OptionLink>
+      <OptionLink to='/shop'>
         CONTACT
-      </Link>
+      </OptionLink>
       {
         currentUser ? 
-        <div className="option" onClick={() => auth.signOut()}> SIGN OUT</div>
+        <OptionLink as='div' onClick={() => auth.signOut()}> SIGN OUT</OptionLink>
         :
-        <Link className='optiom' to='/signin'> SIGN IN</Link>
+        <OptionLink className='optiom' to='/signin'> SIGN IN</OptionLink>
       }
       <CartIcon/>
-    </div>
+    </OptionsContainer>
     {
       hidden ? '' : <CartDropdown/>
     }
     
-  </div>
+  </HeaderContainer>
 );
+
+
+
+
+
+/*  before styled-components:
+  const Header = ({currentUser, hidden}) => (
+    <div className='header'>
+      <Link className='logo-container' to='/'>
+        <Logo className='logo' />
+      </Link>
+      <div className='options'>
+        <Link className='option' to='/shop'>
+          SHOP
+        </Link>
+        <Link className='option' to='/shop'>
+          CONTACT
+        </Link>
+        {
+          currentUser ? 
+          <div className="option" onClick={() => auth.signOut()}> SIGN OUT</div>
+          :
+          <Link className='optiom' to='/signin'> SIGN IN</Link>
+        }
+        <CartIcon/>
+      </div>
+      {
+        hidden ? '' : <CartDropdown/>
+      }
+      
+    </div>
+  );    
+*/
 
 
     //createStructuredSelector automatically passes our top level state tha we get from mapStateToProps
