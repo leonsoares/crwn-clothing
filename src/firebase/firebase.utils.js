@@ -18,6 +18,11 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     const userRef = firestore.doc(`users/${userAuth.uid}`);
     const snapShot = await userRef.get()
 
+        // making a new collection reference
+    // const collectionRef = firestore.collection('users');
+    // const collectionSnapshot = await collectionRef.get();
+    // console.log({collection: collectionSnapshot.docs.map(doc => doc.data()) });
+
     if(!snapShot.exists){
         const { displayName, email} = userAuth;
         const createAt = new Date();
@@ -30,12 +35,49 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
             ...additionalData
         })
         } catch (error){
-            console.log(`error creating user: ${error}`)
+            console.log(`error creating user: ${error.message}`)
         }
     }
     return userRef
 }
 
+export const convertCollectionsSnapshotToMap = collections => {
+  const transformedCollection = collections.docs.map(doc => {
+    const { title, items } = doc.data();
+
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items
+    };
+  });
+
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection;
+    return accumulator;
+  }, {});
+};
+
+
+// reuse this function to create batch of collections into our firestore database
+export const addCollectionAndDocuments = async (
+    collectionKey, 
+    objectToAdd
+    ) => {
+    const collectionRef = firestore.collection(collectionKey);
+    // console.log(collectionRef)
+
+    const batch = firestore.batch();
+    objectToAdd.forEach( obj => {
+        // creating a new doc ref for each obj on firestore with a uniq id
+        const newDocRef = collectionRef.doc();
+        batch.set(newDocRef, obj)
+    })
+    // firing our batch call
+    // .commit returns a promise
+    return await batch.commit()
+};
 
 //  CONFIGING FIREBASE
 firebase.initializeApp(config)

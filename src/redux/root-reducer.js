@@ -30,7 +30,7 @@ const rootReducer = combineReducers({
 // this is our combined reducer/ our root reducer
 export default persistReducer(persistConfig, rootReducer)
 
-/* THIS IS WHAT WE EXPORTED BEFORE PERSISTREDUCER
+/* THIS IS WHAT WE EXPORTED BEFORE PERSIST REDUCER
 this is our combined reducer/ our root reducer
 
 export default combineReducers({
